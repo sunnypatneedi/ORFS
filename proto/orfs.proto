@@ -1,0 +1,578 @@
+syntax = "proto3";
+
+package orfs;
+
+option go_package = "github.com/orfs/proto";
+option java_package = "org.orfs";
+option java_outer_classname = "OrfsProto";
+option java_multiple_files = true;
+option objc_class_prefix = "ORFS";
+
+// FeedMessage represents the top-level message for an ORFS feed
+message FeedMessage {
+  // Required. Metadata about this feed and feed message
+  FeedHeader header = 1;
+
+  // Required. Contents of the feed
+  repeated FeedEntity entity = 2;
+
+  // Extensions namespace
+  extensions 1000 to 1999; // For public extensions
+  extensions 9000 to 9999; // For private/experimental extensions
+}
+
+// FeedHeader contains metadata about the feed
+message FeedHeader {
+  // Required. Version of the ORFS Specification
+  // Example: "1.0"
+  string orfs_version = 1;
+
+  // Incremental counter for feed updates
+  // Monotonically increasing sequence that identifies the feed update
+  uint64 incrementality = 2;
+
+  // Timestamp when the feed was generated (in seconds since Unix epoch)
+  uint64 timestamp = 3;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// FeedEntity represents a single restaurant or entity in the feed
+message FeedEntity {
+  // Required. Unique identifier for this entity
+  // Format: agency_id/entity_type/entity_id
+  // Example: "happyfood/restaurant/rest123"
+  string id = 1;
+
+  // If true, this entity should not be displayed to users
+  // Entities with is_deleted=true should be removed from client cache
+  bool is_deleted = 2;
+
+  // Restaurant information
+  Restaurant restaurant = 3;
+
+  // Menu information
+  Menu menu = 4;
+
+  // Dish information
+  Dish dish = 5;
+  
+  // Table information
+  Table table = 6;
+  
+  // Ingredient information
+  Ingredient ingredient = 7;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Restaurant represents details about a restaurant
+message Restaurant {
+  // Required. Unique identifier for this restaurant within a provider
+  // Example: "rest123"
+  string id = 1;
+
+  // Required. Full name of the restaurant
+  // Example: "Happy Food Corner"
+  string name = 2;
+
+  // Restaurant description
+  string description = 3;
+
+  // Contact information
+  ContactInfo contact = 4;
+
+  // Restaurant location
+  Location location = 5;
+
+  // Restaurant hours
+  Hours hours = 6;
+
+  // Restaurant amenities
+  repeated Amenity amenities = 7;
+
+  // Restaurant cuisine types
+  repeated string cuisine_types = 8;
+
+  // Restaurant price range (1-5, where 1 is least expensive)
+  uint32 price_range = 9;
+
+  // Restaurant rating (0.0-5.0)
+  float rating = 10;
+
+  // URL to the restaurant website
+  string website_url = 11;
+
+  // URL to the restaurant image
+  string image_url = 12;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Menu represents a restaurant menu
+message Menu {
+  // Required. Unique identifier for this menu
+  // Example: "menu123"
+  string id = 1;
+
+  // Required. Restaurant ID this menu belongs to
+  string restaurant_id = 2;
+
+  // Required. Name of the menu
+  // Example: "Dinner Menu", "Brunch Menu"
+  string name = 3;
+
+  // Menu description
+  string description = 4;
+
+  // When this menu is available
+  Hours availability = 5;
+
+  // Menu sections/categories
+  repeated MenuSection sections = 6;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// MenuSection represents a section/category in a menu
+message MenuSection {
+  // Required. Unique identifier for this section
+  // Example: "appetizers", "main_courses"
+  string id = 1;
+
+  // Required. Name of the section
+  // Example: "Appetizers", "Main Courses"
+  string name = 2;
+
+  // Section description
+  string description = 3;
+
+  // Order in which this section should appear (lower numbers first)
+  uint32 display_order = 4;
+
+  // IDs of dishes in this section
+  repeated string dish_ids = 5;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Dish represents a food/beverage item
+message Dish {
+  // Required. Unique identifier for this dish
+  // Example: "dish456"
+  string id = 1;
+
+  // Required. Restaurant ID this dish belongs to
+  string restaurant_id = 2;
+
+  // Required. Name of the dish
+  // Example: "Margherita Pizza"
+  string name = 3;
+
+  // Dish description
+  string description = 4;
+
+  // Required. Price in the smallest unit of the currency (e.g. cents)
+  uint32 price = 5;
+
+  // Required. Currency code (ISO 4217)
+  // Example: "USD", "EUR"
+  string currency = 6;
+
+  // URL to the dish image
+  string image_url = 7;
+
+  // Nutritional information
+  NutritionalInfo nutritional_info = 8;
+
+  // Allergens in this dish
+  repeated Allergen allergens = 9;
+
+  // Dietary information
+  repeated DietaryInfo dietary_info = 10;
+
+  // Customization options
+  repeated CustomizationOption customization_options = 11;
+
+  // Ingredient IDs used in this dish
+  repeated string ingredient_ids = 12;
+
+  // Whether this dish is currently available
+  bool available = 13;
+
+  // If dish is unavailable, estimated time (in minutes) until it becomes available
+  uint32 available_in_minutes = 14;
+
+  // Special tags for this dish (e.g. "spicy", "chef's special")
+  repeated string tags = 15;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// CustomizationOption represents a way to customize a dish
+message CustomizationOption {
+  // Required. Unique identifier for this customization option
+  string id = 1;
+
+  // Required. Name of the customization
+  // Example: "Protein", "Toppings"
+  string name = 2;
+
+  // Required. Type of selection allowed
+  SelectionType selection_type = 3;
+
+  // Minimum number of selections required (0 if optional)
+  uint32 min_selections = 4;
+
+  // Maximum number of selections allowed
+  uint32 max_selections = 5;
+
+  // Available choices for this customization
+  repeated CustomizationChoice choices = 6;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Types of selection for customization options
+enum SelectionType {
+  SELECTION_UNKNOWN = 0;
+  SELECTION_SINGLE = 1;   // Only one option can be selected
+  SELECTION_MULTIPLE = 2; // Multiple options can be selected
+}
+
+// CustomizationChoice represents an individual option within a customization
+message CustomizationChoice {
+  // Required. Unique identifier for this choice
+  string id = 1;
+
+  // Required. Name of the choice
+  // Example: "Extra Cheese", "No Onions"
+  string name = 2;
+
+  // Additional price for this choice in smallest currency unit
+  int32 price_adjustment = 3;
+
+  // Default selection status
+  bool default_selected = 4;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Table represents a table in a restaurant
+message Table {
+  // Required. Unique identifier for this table
+  // Example: "table12"
+  string id = 1;
+
+  // Required. Restaurant ID this table belongs to
+  string restaurant_id = 2;
+
+  // Required. Table number or identifier visible to customers
+  // Example: "12", "A3"
+  string table_number = 3;
+
+  // Required. Table capacity (number of seats)
+  uint32 capacity = 4;
+
+  // Required. Current status of the table
+  TableStatus status = 5;
+
+  // Table location description
+  // Example: "Patio", "Main Dining Room"
+  string location = 6;
+
+  // Features of this table
+  repeated TableFeature features = 7;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Status options for tables
+enum TableStatus {
+  STATUS_UNKNOWN = 0;
+  STATUS_AVAILABLE = 1;    // Table is available now
+  STATUS_OCCUPIED = 2;     // Table is currently occupied
+  STATUS_RESERVED = 3;     // Table is reserved
+  STATUS_CLEANING = 4;     // Table is being cleaned/reset
+  STATUS_OUT_OF_SERVICE = 5; // Table is not in service
+}
+
+// Features that a table might have
+enum TableFeature {
+  FEATURE_UNKNOWN = 0;
+  FEATURE_WINDOW = 1;          // Table by a window
+  FEATURE_BOOTH = 2;           // Booth seating
+  FEATURE_HIGHCHAIR = 3;       // High chair available
+  FEATURE_WHEELCHAIR = 4;      // Wheelchair accessible
+  FEATURE_PRIVATE = 5;         // Private dining area
+  FEATURE_OUTLET = 6;          // Power outlet available
+  FEATURE_OUTDOOR = 7;         // Outdoor seating
+}
+
+// Ingredient represents a food ingredient
+message Ingredient {
+  // Required. Unique identifier for this ingredient
+  // Example: "ing789"
+  string id = 1;
+
+  // Required. Restaurant ID this ingredient belongs to
+  string restaurant_id = 2;
+
+  // Required. Name of the ingredient
+  // Example: "Organic Tomatoes"
+  string name = 3;
+
+  // Ingredient description
+  string description = 4;
+
+  // Allergens in this ingredient
+  repeated Allergen allergens = 5;
+
+  // Dietary information about this ingredient
+  repeated DietaryInfo dietary_info = 6;
+
+  // Source information about this ingredient
+  string source = 7;
+
+  // Whether this ingredient is locally sourced
+  bool locally_sourced = 8;
+
+  // Whether this ingredient is organic
+  bool organic = 9;
+
+  // Whether this ingredient is currently in stock
+  bool in_stock = 10;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Common allergens
+enum Allergen {
+  ALLERGEN_UNKNOWN = 0;
+  ALLERGEN_GLUTEN = 1;
+  ALLERGEN_DAIRY = 2;
+  ALLERGEN_EGGS = 3;
+  ALLERGEN_FISH = 4;
+  ALLERGEN_SHELLFISH = 5;
+  ALLERGEN_NUTS = 6;
+  ALLERGEN_PEANUTS = 7;
+  ALLERGEN_SOY = 8;
+  ALLERGEN_SESAME = 9;
+  ALLERGEN_SULPHITES = 10;
+  ALLERGEN_MUSTARD = 11;
+  ALLERGEN_CELERY = 12;
+  ALLERGEN_LUPIN = 13;
+  ALLERGEN_MOLLUSCS = 14;
+}
+
+// Dietary information categories
+enum DietaryInfo {
+  DIET_UNKNOWN = 0;
+  DIET_VEGETARIAN = 1;
+  DIET_VEGAN = 2;
+  DIET_PESCATARIAN = 3;
+  DIET_GLUTEN_FREE = 4;
+  DIET_DAIRY_FREE = 5;
+  DIET_NUT_FREE = 6;
+  DIET_HALAL = 7;
+  DIET_KOSHER = 8;
+  DIET_LOW_CARB = 9;
+  DIET_KETO = 10;
+  DIET_PALEO = 11;
+}
+
+// Contact information
+message ContactInfo {
+  // Phone number with country code
+  // Example: "+14155552671"
+  string phone = 1;
+
+  // Email address
+  string email = 2;
+
+  // Social media profiles
+  message SocialMedia {
+    // Platform name (e.g. "facebook", "instagram")
+    string platform = 1;
+    
+    // Profile URL or username
+    string profile = 2;
+  }
+  
+  // List of social media profiles
+  repeated SocialMedia social_media = 3;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Location information
+message Location {
+  // Required. Street address
+  string address = 1;
+
+  // City
+  string city = 2;
+
+  // State/Province/Region
+  string region = 3;
+
+  // Postal/ZIP code
+  string postal_code = 4;
+
+  // Required. Country code (ISO 3166-1 alpha-2)
+  // Example: "US", "GB"
+  string country = 5;
+
+  // Latitude in decimal degrees
+  double latitude = 6;
+
+  // Longitude in decimal degrees
+  double longitude = 7;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Business hours
+message Hours {
+  // Operating hours for different days of the week
+  repeated OperatingHours operating_hours = 1;
+
+  // Special hours for holidays or special events
+  repeated SpecialHours special_hours = 2;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Operating hours for a day
+message OperatingHours {
+  // Required. Day of week (1 = Monday, 7 = Sunday)
+  uint32 day_of_week = 1;
+
+  // Required if open. Opening time in 24-hour format (HH:MM)
+  // Example: "09:00"
+  string open_time = 2;
+
+  // Required if open. Closing time in 24-hour format (HH:MM)
+  // Example: "22:00"
+  string close_time = 3;
+
+  // Indicates if closed on this day
+  bool closed = 4;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Special hours for holidays or special events
+message SpecialHours {
+  // Required. Date in ISO 8601 format (YYYY-MM-DD)
+  // Example: "2025-12-25"
+  string date = 1;
+
+  // Required if open. Opening time in 24-hour format (HH:MM)
+  string open_time = 2;
+
+  // Required if open. Closing time in 24-hour format (HH:MM)
+  string close_time = 3;
+
+  // Indicates if closed on this day
+  bool closed = 4;
+
+  // Name of the special day
+  // Example: "Christmas Day", "Independence Day"
+  string name = 5;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Restaurant amenities
+enum Amenity {
+  AMENITY_UNKNOWN = 0;
+  AMENITY_WIFI = 1;
+  AMENITY_PARKING = 2;
+  AMENITY_TAKEOUT = 3;
+  AMENITY_DELIVERY = 4;
+  AMENITY_RESERVATIONS = 5;
+  AMENITY_WHEELCHAIR_ACCESSIBLE = 6;
+  AMENITY_OUTDOOR_SEATING = 7;
+  AMENITY_LIVE_MUSIC = 8;
+  AMENITY_KIDS_FRIENDLY = 9;
+  AMENITY_PETS_ALLOWED = 10;
+  AMENITY_BAR = 11;
+  AMENITY_TELEVISION = 12;
+  AMENITY_CATERING = 13;
+  AMENITY_ALCOHOL_SERVED = 14;
+  AMENITY_HAPPY_HOUR = 15;
+}
+
+// Nutritional information for a dish
+message NutritionalInfo {
+  // Serving size in grams
+  uint32 serving_size_grams = 1;
+
+  // Calories per serving
+  uint32 calories = 2;
+
+  // Total fat in grams
+  float total_fat_grams = 3;
+
+  // Saturated fat in grams
+  float saturated_fat_grams = 4;
+
+  // Trans fat in grams
+  float trans_fat_grams = 5;
+
+  // Cholesterol in milligrams
+  float cholesterol_mg = 6;
+
+  // Sodium in milligrams
+  float sodium_mg = 7;
+
+  // Total carbohydrates in grams
+  float total_carbs_grams = 8;
+
+  // Dietary fiber in grams
+  float dietary_fiber_grams = 9;
+
+  // Sugars in grams
+  float sugars_grams = 10;
+
+  // Added sugars in grams
+  float added_sugars_grams = 11;
+
+  // Protein in grams
+  float protein_grams = 12;
+
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}

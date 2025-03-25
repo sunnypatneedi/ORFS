@@ -1,0 +1,150 @@
+{
+  "header": {
+    "version": "1.0",
+    "timestamp": 1616432523,
+    "provider": "Example Restaurant Group"
+  },
+  "restaurants": [
+    {
+      "id": "downtown-grill",
+      "name": "Downtown Grill",
+      "description": "Farm-to-table dining experience in the heart of the city",
+      "cuisine_type": ["American", "Farm-to-table"],
+      "location": {
+        "latitude": 37.7749,
+        "longitude": -122.4194,
+        "address": "123 Main St, San Francisco, CA 94105"
+      },
+      "contact": {
+        "phone": "+14155551234",
+        "email": "info@downtowngrill.example",
+        "website": "https://downtowngrill.example"
+      },
+      "hours": [
+        {
+          "day": "MONDAY",
+          "open_time": "11:00:00",
+          "close_time": "22:00:00"
+        },
+        {
+          "day": "TUESDAY",
+          "open_time": "11:00:00",
+          "close_time": "22:00:00"
+        },
+        {
+          "day": "WEDNESDAY",
+          "open_time": "11:00:00",
+          "close_time": "22:00:00"
+        },
+        {
+          "day": "THURSDAY",
+          "open_time": "11:00:00",
+          "close_time": "23:00:00"
+        },
+        {
+          "day": "FRIDAY",
+          "open_time": "11:00:00",
+          "close_time": "23:00:00"
+        },
+        {
+          "day": "SATURDAY",
+          "open_time": "10:00:00",
+          "close_time": "23:00:00"
+        },
+        {
+          "day": "SUNDAY",
+          "open_time": "10:00:00",
+          "close_time": "22:00:00"
+        }
+      ],
+      "menus": [
+        {
+          "id": "lunch-menu",
+          "name": "Lunch Menu",
+          "description": "Available weekdays from 11:00 to 16:00",
+          "active_times": [
+            {
+              "day": "MONDAY",
+              "start_time": "11:00:00",
+              "end_time": "16:00:00"
+            },
+            {
+              "day": "TUESDAY",
+              "start_time": "11:00:00",
+              "end_time": "16:00:00"
+            },
+            {
+              "day": "WEDNESDAY",
+              "start_time": "11:00:00",
+              "end_time": "16:00:00"
+            },
+            {
+              "day": "THURSDAY",
+              "start_time": "11:00:00",
+              "end_time": "16:00:00"
+            },
+            {
+              "day": "FRIDAY",
+              "start_time": "11:00:00",
+              "end_time": "16:00:00"
+            }
+          ],
+          "dishes": [
+            {
+              "id": "burger",
+              "name": "Grass-Fed Burger",
+              "description": "Local grass-fed beef with artisan cheese and house-made aioli",
+              "price": {
+                "amount": 16.99,
+                "currency": "USD"
+              },
+              "ingredients": [
+                {
+                  "id": "beef",
+                  "name": "Grass-Fed Beef",
+                  "is_allergen": false
+                },
+                {
+                  "id": "cheese",
+                  "name": "Artisan Cheese",
+                  "is_allergen": true,
+                  "allergen_type": "DAIRY"
+                }
+              ],
+              "customizations": [
+                {
+                  "id": "patty-temp",
+                  "name": "Cooking Temperature",
+                  "options": ["Rare", "Medium Rare", "Medium", "Medium Well", "Well Done"],
+                  "default": "Medium"
+                }
+              ],
+              "nutritional_info": {
+                "calories": 850,
+                "protein_grams": 45,
+                "carbs_grams": 40,
+                "fat_grams": 55
+              }
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "id": "table-1",
+          "name": "Table 1",
+          "capacity": 4,
+          "location_description": "Window seating",
+          "is_reservable": true
+        },
+        {
+          "id": "table-2",
+          "name": "Table 2",
+          "capacity": 2,
+          "location_description": "Bar area",
+          "is_reservable": true
+        }
+      ]
+    }
+  ]
+}

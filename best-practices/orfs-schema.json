@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ORFS JSON Schema",
+  "description": "JSON Schema for validating Open Restaurant Feed Specification static feeds",
+  "type": "object",
+  "required": ["header", "restaurants"],
+  "properties": {
+    "header": {
+      "type": "object",
+      "required": ["version", "timestamp"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "ORFS specification version",
+          "example": "1.0"
+        },
+        "timestamp": {
+          "type": "integer",
+          "description": "POSIX timestamp when the feed was generated",
+          "example": 1616432523
+        },
+        "provider": {
+          "type": "string",
+          "description": "Organization providing the feed",
+          "example": "Example Restaurant Group"
+        }
+      }
+    },
+    "restaurants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "location"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "description": "Unique identifier for the restaurant",
+            "example": "downtown-grill"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the restaurant",
+            "example": "Downtown Grill"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the restaurant",
+            "example": "Farm-to-table dining experience in the heart of the city"
+          },
+          "location": {
+            "type": "object",
+            "required": ["latitude", "longitude", "address"],
+            "properties": {
+              "latitude": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90,
+                "description": "Latitude coordinate",
+                "example": 37.7749
+              },
+              "longitude": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180,
+                "description": "Longitude coordinate",
+                "example": -122.4194
+              },
+              "address": {
+                "type": "string",
+                "description": "Street address",
+                "example": "123 Main St, San Francisco, CA 94105"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
