@@ -1,6 +1,6 @@
 {
   "header": {
-    "version": "1.1",
+    "version": "1.2",
     "timestamp": 1648636800,
     "provider": "Zest Restaurant Group"
   },
@@ -164,11 +164,24 @@
       "supplier_certification": "USDA Organic, Sonoma Sustainable Farming",
       "farm_distance": 15,
       "sustainability_impact": "Sourcing locally reduces our carbon footprint by 30% compared to standard supply chains. Our partnership with Sonoma Valley Farms supports regenerative agriculture practices.",
-      "upgrade_options": {
-        "new_name": "Truffle Marinara Pizza",
-        "new_price": 2700,
-        "marketing_copy": "Experience the luxurious twist with black truffle oil and aged Parmigiano—an upgrade that celebrates local flavor with a touch of indulgence."
+      "upgrade_options": [
+        {
+          "new_name": "Truffle Marinara Pizza",
+          "new_price": 2700,
+          "marketing_copy": "Experience the luxurious twist with black truffle oil and aged Parmigiano—an upgrade that celebrates local flavor with a touch of indulgence."
+        },
+        {
+          "new_name": "Vegan Marinara Pizza",
+          "new_price": 2400,
+          "marketing_copy": "Our plant-based version replaces traditional cheese with our house-made cashew ricotta, delivering all the flavor with none of the dairy."
+        }
+      ],
+      "lto_details": {
+        "start_time": 1700200000,
+        "end_time": 1700203600,
+        "marketing_copy": "Limited Time: Try our exclusive Truffle Marinara this week only! Made with rare black truffles from our partner farm."
       },
+      "customer_feedback_summary": "92% positive reviews – consistently mentioned as the most authentic Neapolitan-style pizza in Sonoma!",
       "key_message_points": [
         "Locally sourced tomatoes",
         "Traditional Italian techniques",
@@ -211,12 +224,10 @@
   ],
   "bundles": [
     {
-      "id": "pizza_wine_bundle",
-      "restaurant_id": "zest_california",
+      "bundle_id": "pizza_wine_bundle",
       "bundle_name": "Pizza & Wine Date Night Bundle",
       "included_items": ["marinara_pizza", "garden_salad", "local_wine"],
-      "price": 4500,
-      "currency": "USD",
+      "bundle_price": 4500,
       "bundle_marketing_copy": "Discover the ultimate taste of Zest with our curated date night bundle—perfect for sharing! Enjoy our signature Marinara Pizza paired with a garden-fresh salad and a bottle of locally produced wine from Sonoma Valley vineyards."
     }
   ]

@@ -1,28 +1,31 @@
 # Open Restaurant Feed Specification (ORFS)
 
-**Version:** 1.1  
-**Last Updated:** 2025-05-15
+**Version:** 1.2  
+**Last Updated:** 2025-03-28
 
-ORFS is an open, real-time protocol for restaurants to broadcast detailed information about their menus, dishes, tables, and ingredients. ORFS uses Protocol Buffers for efficient real-time feeds and JSON for static data interchange. Version 1.1 extends the specification with comprehensive marketing, narrative, and local sourcing capabilities.
+ORFS is an open, real-time protocol for restaurants to broadcast detailed information about their menus, dishes, tables, and ingredients. ORFS uses Protocol Buffers for efficient real-time feeds and JSON for static data interchange. Version 1.2 enhances the specification with multiple upgrade options, limited-time offers, customer feedback summaries, and improved LLM integration to generate more compelling content.
 
 ## Overview
 
 This repository contains:
 - **Protobuf Definitions:** Found in `proto/orfs.proto`
 - **JSON Schemas:** In the `best-practices/` folder, providing full validation for Restaurant, Menu, Dish, Table, Ingredient, Bundle, and marketing extension types.
-- **Examples:** Example static feed and real-time feed files in `examples/`, including v1.1 examples demonstrating the new marketing capabilities.
+- **Examples:** Example static feed and real-time feed files in `examples/`, including v1.2 examples demonstrating the latest features.
 - **Tools:** Reference implementations and a validator script in `tools/`.
 - **Documentation:** Detailed markdown documentation in `spec/`.
 
-## Key Features in v1.1
+## Key Features in v1.2
 
 - **Rich Narrative Content:** Tell compelling stories about dishes, ingredients, and chef inspirations
 - **Multi-language Support:** Provide translations for key narrative content
 - **Marketing Extensions:** Include loyalty program details, promotional offers, events, and more
 - **Local Sourcing Data:** Showcase farm locations, certifications, and sustainability impacts
-- **LLM Integration:** Built-in fields for prompt templates and key message points
+- **Multiple Upgrade Options:** Offer several premium modifications for any dish (new in v1.2)
+- **Limited-Time Offers:** Specify time-bound promotions with start/end times (new in v1.2)
+- **Customer Feedback Summary:** Highlight customer favorites and review sentiment (new in v1.2)
+- **Enhanced LLM Integration:** Improved prompt templates for better auto-generation of marketing content
 - **Bundle Offerings:** Define and promote groups of items sold together
-- **Backward Compatibility:** All new fields are optional to maintain compatibility with v1.0
+- **Backward Compatibility:** All new fields are optional to maintain compatibility with earlier versions
 
 ## Quick Start
 

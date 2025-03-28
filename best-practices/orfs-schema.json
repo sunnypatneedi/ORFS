@@ -12,7 +12,7 @@
         "version": {
           "type": "string",
           "description": "ORFS specification version",
-          "example": "1.1"
+          "example": "1.2"
         },
         "timestamp": {
           "type": "integer",
@@ -52,6 +52,48 @@
     }
   },
   "definitions": {
+    "UpgradeOption": {
+      "type": "object",
+      "properties": {
+        "new_name": {
+          "type": "string",
+          "description": "Name of the upgraded version of the dish",
+          "example": "Truffle Margherita"
+        },
+        "new_price": {
+          "type": "integer",
+          "description": "Price of the upgraded version in smallest currency unit",
+          "example": 2500
+        },
+        "marketing_copy": {
+          "type": "string",
+          "description": "Marketing description for the upgrade option",
+          "example": "Experience the luxurious twist with truffle oil and aged Parmigiano—an upgrade that celebrates local flavor."
+        }
+      },
+      "required": ["new_name", "new_price", "marketing_copy"]
+    },
+    "LtoDetails": {
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "type": "integer",
+          "description": "Start timestamp for the limited time offer (POSIX epoch seconds)",
+          "example": 1700200000
+        },
+        "end_time": {
+          "type": "integer",
+          "description": "End timestamp for the limited time offer (POSIX epoch seconds)",
+          "example": 1700203600
+        },
+        "marketing_copy": {
+          "type": "string",
+          "description": "Marketing copy for the limited time offer",
+          "example": "Limited Time: Elevate your experience with our exclusive Truffle Margherita upgrade!"
+        }
+      },
+      "required": ["start_time", "end_time", "marketing_copy"]
+    },
     "Restaurant": {
       "type": "object",
       "required": ["id", "name"],
@@ -250,7 +292,11 @@
           "example": "Sourcing locally reduces our carbon footprint by 30%."
         },
         "upgrade_options": {
-          "$ref": "#/definitions/UpgradeOption"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UpgradeOption"
+          },
+          "description": "Options to upgrade the dish with premium ingredients or preparations"
         },
         "key_message_points": {
           "type": "array",
@@ -264,6 +310,14 @@
           "type": "string",
           "description": "Template for LLM prompts specific to this dish",
           "example": "Create a {social_media|menu|website} description for our {dish.name}, highlighting the {ingredient_story} and {chef_story}."
+        },
+        "lto_details": {
+          "$ref": "#/definitions/LtoDetails"
+        },
+        "customer_feedback_summary": {
+          "type": "string",
+          "description": "Summary of customer feedback or customer favorite status",
+          "example": "90% positive reviews – a customer favorite!"
         }
       }
     },
@@ -331,17 +385,12 @@
     },
     "Bundle": {
       "type": "object",
-      "required": ["id", "restaurant_id", "bundle_name", "included_items", "price", "currency"],
+      "required": ["bundle_id", "bundle_name", "included_items", "bundle_price"],
       "properties": {
-        "id": {
+        "bundle_id": {
           "type": "string",
           "description": "Unique identifier for the bundle",
           "example": "bundle_pizza_antipasti"
-        },
-        "restaurant_id": {
-          "type": "string",
-          "description": "ID of the restaurant this bundle belongs to",
-          "example": "zest_california"
         },
         "bundle_name": {
           "type": "string",
@@ -356,16 +405,10 @@
           "description": "IDs of items in this bundle",
           "example": ["marinara_pizza", "focaccia", "broccoli_rabe_side"]
         },
-        "price": {
+        "bundle_price": {
           "type": "integer",
           "description": "Bundle price in smallest currency unit",
           "example": 4000
-        },
-        "currency": {
-          "type": "string",
-          "pattern": "^[A-Z]{3}$",
-          "description": "ISO 4217 currency code",
-          "example": "USD"
         },
         "bundle_marketing_copy": {
           "type": "string",
@@ -448,26 +491,7 @@
         }
       }
     },
-    "UpgradeOption": {
-      "type": "object",
-      "properties": {
-        "new_name": {
-          "type": "string",
-          "description": "Name of the upgraded version",
-          "example": "Truffle Margherita"
-        },
-        "new_price": {
-          "type": "integer",
-          "description": "Price of the upgraded version in smallest currency unit",
-          "example": 2500
-        },
-        "marketing_copy": {
-          "type": "string",
-          "description": "Marketing copy for the upgrade",
-          "example": "Experience the luxurious twist with truffle oil and aged Parmigiano—an upgrade that celebrates local flavor."
-        }
-      }
-    },
+
     "MarketingExtension": {
       "type": "object",
       "properties": {

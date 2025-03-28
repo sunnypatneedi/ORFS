@@ -367,29 +367,83 @@ def validate_marketing_fields(json_file_path: str, content_quality: bool = False
                     validation_issues.append(
                         f"Dish '{dish_id}' has invalid sustainability_impact: too short. Aim for at least 10 words.")
             
-            # Check upgrade options
+            # Check upgrade options (now an array in v1.2)
             if "upgrade_options" in dish:
                 options = dish["upgrade_options"]
                 if not isinstance(options, list):
                     validation_issues.append(
-                        f"Dish '{dish_id}' upgrade_options must be a list")
+                        f"Dish '{dish_id}' upgrade_options must be an array")
                 else:
                     for i, option in enumerate(options):
-                        if "name" not in option or not option["name"]:
+                        if not isinstance(option, dict):
                             validation_issues.append(
-                                f"Dish '{dish_id}' upgrade_option[{i}] is missing a name")
-                        if "price_adjustment" in option and not isinstance(option["price_adjustment"], (int, float)):
+                                f"Dish '{dish_id}' upgrade_options[{i}] must be an object")
+                            continue
+                            
+                        if "new_name" not in option or not option["new_name"]:
                             validation_issues.append(
-                                f"Dish '{dish_id}' upgrade_option[{i}] has invalid price_adjustment")
+                                f"Dish '{dish_id}' upgrade_options[{i}] is missing new_name")
+                                
+                        if "new_price" in option and not isinstance(option["new_price"], (int, float)):
+                            validation_issues.append(
+                                f"Dish '{dish_id}' upgrade_options[{i}] has invalid new_price")
+                                
+                        if "marketing_copy" not in option or not option["marketing_copy"]:
+                            validation_issues.append(
+                                f"Dish '{dish_id}' upgrade_options[{i}] is missing marketing_copy")
+            
+            # Check LTO details (new in v1.2)
+            if "lto_details" in dish:
+                lto = dish["lto_details"]
+                if not isinstance(lto, dict):
+                    validation_issues.append(
+                        f"Dish '{dish_id}' lto_details must be an object")
+                else:
+                    # Validate required fields
+                    if "start_time" not in lto or not isinstance(lto["start_time"], (int)):
+                        validation_issues.append(
+                            f"Dish '{dish_id}' lto_details is missing valid start_time")
+                            
+                    if "end_time" not in lto or not isinstance(lto["end_time"], (int)):
+                        validation_issues.append(
+                            f"Dish '{dish_id}' lto_details is missing valid end_time")
+                    
+                    # Check that end_time is after start_time
+                    if "start_time" in lto and "end_time" in lto and lto["start_time"] >= lto["end_time"]:
+                        validation_issues.append(
+                            f"Dish '{dish_id}' lto_details has end_time that is not after start_time")
+                    
+                    if "marketing_copy" not in lto or not isinstance(lto["marketing_copy"], str) or len(lto["marketing_copy"]) < 10:
+                        validation_issues.append(
+                            f"Dish '{dish_id}' lto_details is missing or has too short marketing_copy")
+            
+            # Check customer feedback summary (new in v1.2)
+            if "customer_feedback_summary" in dish:
+                feedback = dish["customer_feedback_summary"]
+                if not isinstance(feedback, str) or len(feedback) < 5:
+                    validation_issues.append(
+                        f"Dish '{dish_id}' has invalid customer_feedback_summary: too short")
     
     # Check bundle fields
     if "bundles" in feed:
         for bundle in feed["bundles"]:
-            bundle_id = bundle.get("id", "unknown")
+            bundle_id = bundle.get("bundle_id", "unknown")
+            
+            # Check bundle name
+            if "bundle_name" not in bundle or not bundle["bundle_name"]:
+                validation_issues.append(f"Bundle '{bundle_id}' must have a bundle_name")
             
             # Check included_items
             if "included_items" not in bundle or not bundle["included_items"]:
                 validation_issues.append(f"Bundle '{bundle_id}' must have at least one item in included_items")
+            
+            # Check bundle price
+            if "bundle_price" not in bundle or not isinstance(bundle["bundle_price"], (int, float)) or bundle["bundle_price"] <= 0:
+                validation_issues.append(f"Bundle '{bundle_id}' must have a valid bundle_price greater than zero")
+            
+            # Check marketing copy
+            if "bundle_marketing_copy" in bundle and (not isinstance(bundle["bundle_marketing_copy"], str) or len(bundle["bundle_marketing_copy"]) < 10):
+                validation_issues.append(f"Bundle '{bundle_id}' has invalid or too short bundle_marketing_copy")
     
     # Check for SEO best practices if requested
     if seo_check and ("restaurants" in feed or "dishes" in feed):

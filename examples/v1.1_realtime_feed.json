@@ -1,6 +1,6 @@
 {
   "header": {
-    "version": "1.1",
+    "version": "1.2",
     "timestamp": 1648636845,
     "provider": "Zest Restaurant Group",
     "incrementality": "DIFFERENTIAL"
@@ -42,6 +42,19 @@
         "remaining_quantity": 8,
         "special_status": "CHEF_SPECIAL",
         "chef_highlight": "Tonight only: Chef Adriana's using rare heirloom tomato variety!",
+        "customer_feedback_summary": "Updated tonight: 95% positive reviews from early diners!",
+        "upgrade_options": [
+          {
+            "new_name": "Truffle Marinara Pizza",
+            "new_price": 2700,
+            "marketing_copy": "Tonight's special upgrade: Made with freshly harvested black truffles from our partner farm."
+          }
+        ],
+        "lto_details": {
+          "start_time": 1648636845,
+          "end_time": 1648670845,
+          "marketing_copy": "One night only! Try our special Marinara with rare late-season heirloom tomatoes."
+        },
         "seasonal_story": {
           "translations": {
             "en": "Tonight we're featuring a rare batch of late-season heirloom tomatoes from Sonoma Valley Farms. This unexpected harvest brings an exceptionally sweet flavor profile to our Marinara Pizza."
@@ -76,10 +89,10 @@
     {
       "id": "zest_california_bundle_flash_sale",
       "bundle": {
-        "id": "pizza_wine_bundle",
-        "restaurant_id": "zest_california",
-        "price": 3900,
-        "currency": "USD",
+        "bundle_id": "pizza_wine_bundle",
+        "bundle_name": "Pizza & Wine Date Night Bundle",
+        "included_items": ["marinara_pizza", "garden_salad", "local_wine"],
+        "bundle_price": 3900,
         "bundle_marketing_copy": "FLASH SALE: Our Pizza & Wine Date Night Bundle is now available at a special price for tonight only! Experience the perfect pairing of our signature Marinara Pizza featuring the rare late-season tomatoes, paired with an exclusive wine selection.",
         "available": true,
         "limited_time_offer": true,

@@ -8,7 +8,8 @@ option java_outer_classname = "OrfsProto";
 option java_multiple_files = true;
 option objc_class_prefix = "ORFS";
 
-// NOTE: ORFS version 1.1 includes enhancements for marketing, narrative, and local sourcing data fields.
+// NOTE: ORFS version 1.2 includes enhancements for marketing, narrative, and local sourcing data fields
+// with additional support for multiple upgrade options, limited-time offers, and customer feedback.
 
 // FeedMessage represents the top-level message for an ORFS feed
 message FeedMessage {
@@ -269,7 +270,13 @@ message Dish {
   string sustainability_impact = 26;
   
   // Upgrade options for this dish
-  UpgradeOption upgrade_options = 27;
+  repeated UpgradeOption upgrade_options = 27;
+  
+  // Limited Time Offer details
+  LtoDetails lto_details = 30;
+  
+  // Summary of customer feedback or customer favorite status
+  string customer_feedback_summary = 31;
   
   // Template for LLM prompts specific to this dish
   string suggested_prompt_template = 28;
@@ -715,6 +722,18 @@ message UpgradeOption {
   string marketing_copy = 3;
 }
 
+// Limited Time Offer (LTO) details for a dish
+message LtoDetails {
+  // Start timestamp (POSIX epoch seconds)
+  uint64 start_time = 1;
+  
+  // End timestamp (POSIX epoch seconds)
+  uint64 end_time = 2;
+  
+  // Marketing copy for the limited-time offer
+  string marketing_copy = 3;
+}
+
 // MarketingExtension contains additional marketing data for restaurants
 message MarketingExtension {
   // Loyalty program details
@@ -857,28 +876,22 @@ message MarketingExtension {
 message Bundle {
   // Required. Unique identifier for this bundle
   // Example: "bundle_pizza_antipasti"
-  string id = 1;
-  
-  // Required. Restaurant ID this bundle belongs to
-  string restaurant_id = 2;
+  string bundle_id = 1;
   
   // Required. Display name for the bundle
   // Example: "Pizza & Antipasti Bundle"
-  string bundle_name = 3;
+  string bundle_name = 2;
   
   // Required. IDs of items in this bundle
   // Example: ["marinara_pizza", "focaccia", "broccoli_rabe_side"]
-  repeated string included_items = 4;
+  repeated string included_items = 3;
   
   // Required. Bundle price in smallest currency unit
-  uint32 price = 5;
-  
-  // Required. Currency code (ISO 4217)
-  // Example: "USD", "EUR"
-  string currency = 6;
+  uint32 bundle_price = 4;
   
   // Marketing copy for the bundle
-  string bundle_marketing_copy = 7;
+  // Example: "Discover the ultimate taste of Zest with our curated bundle—perfect for sharing and saving!"
+  string bundle_marketing_copy = 5;
   
   // Extensions namespace
   extensions 1000 to 1999;
