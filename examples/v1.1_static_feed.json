@@ -1,0 +1,223 @@
+{
+  "header": {
+    "version": "1.1",
+    "timestamp": 1648636800,
+    "provider": "Zest Restaurant Group"
+  },
+  "restaurants": [
+    {
+      "id": "zest_california",
+      "name": "Zest",
+      "description": "Farm-to-table restaurant celebrating the best of California's produce",
+      "cuisine_types": ["Farm-to-Table", "California", "Italian-Inspired"],
+      "price_range": 3,
+      "location": {
+        "address": "123 Culinary Lane",
+        "city": "Sonoma",
+        "region": "CA",
+        "postal_code": "95476",
+        "country": "USA",
+        "latitude": 38.291859,
+        "longitude": -122.458036
+      },
+      "contact": {
+        "phone": "+14155557890",
+        "email": "hello@zestrestaurant.example",
+        "website": "https://zestrestaurant.example"
+      },
+      "key_message_points": [
+        "Farm-to-table freshness",
+        "Supporting local farmers",
+        "Sustainable practices",
+        "Celebrating California's bounty"
+      ],
+      "suggested_prompt_template": "Generate a {length} description for {restaurant_name}, emphasizing our {key_message_points} and how we work with local suppliers within {farm_distance} miles of our restaurant.",
+      "marketing_extension": {
+        "loyalty_program": {
+          "program_name": "Zest Rewards",
+          "tiers": [
+            {
+              "tier_name": "Bronze",
+              "benefits": "5% off your total bill"
+            },
+            {
+              "tier_name": "Silver",
+              "benefits": "10% off your total bill + complimentary dessert on your birthday"
+            },
+            {
+              "tier_name": "Gold",
+              "benefits": "15% off your total bill + priority reservations + chef's special tasting annually"
+            }
+          ],
+          "promo_blurb": "Join Zest Rewards and elevate your dining experience with exclusive offers!"
+        },
+        "promotional_offers": [
+          {
+            "offer_name": "Half-Price Pizza Wednesday",
+            "details": "Every Wednesday from 5-7 PM",
+            "start_time": 1700000000,
+            "end_time": 1700007200,
+            "marketing_copy": "Experience midweek magic with half-priced pizzas crafted from locally-sourced ingredients and traditional techniques!"
+          },
+          {
+            "offer_name": "Weekend Brunch Special",
+            "details": "Saturday and Sunday 10 AM - 2 PM",
+            "start_time": 1700305200,
+            "end_time": 1700323200,
+            "marketing_copy": "Start your weekend right with our seasonal brunch menu featuring farm-fresh eggs and organic produce."
+          }
+        ],
+        "influencer_partnerships": [
+          {
+            "influencer_handle": "@foodieTraveler",
+            "collab_type": "Menu Tasting Event",
+            "marketing_copy": "Exclusive behind-the-scenes coverage of our local farm visits and seasonal menu development!"
+          },
+          {
+            "influencer_handle": "@chefLife",
+            "collab_type": "Cooking Class",
+            "marketing_copy": "Learn the secrets of farm-to-table cooking with our executive chef and @chefLife."
+          }
+        ],
+        "social_media_strategy": {
+          "platforms": ["Instagram", "Facebook", "TikTok"],
+          "hashtags": ["#ZestLocal", "#FarmToFork", "#SonomaFresh", "#CaliforniaCuisine"],
+          "posting_schedule": "3x weekly",
+          "social_media_blurb": "Taste local, live local—Zest brings Sonoma's freshest right to your plate! #ZestLocal"
+        },
+        "event_scheduling": [
+          {
+            "event_name": "Local Farm Tour",
+            "description": "Join us at Sonoma Valley Farms for an exclusive behind-the-scenes tour!",
+            "start_time": 1700100000,
+            "end_time": 1700107200,
+            "location": "Sonoma Valley Farms",
+            "marketing_copy": "Experience the farm behind our fresh tomatoes and discover how sustainable farming practices make a difference in flavor."
+          },
+          {
+            "event_name": "Seasonal Menu Launch",
+            "description": "Be the first to taste our new autumn menu celebrating harvest season.",
+            "start_time": 1700200000,
+            "end_time": 1700207200,
+            "location": "Zest Restaurant",
+            "marketing_copy": "Autumn's bounty comes to life in our new seasonal menu—join us for an exclusive first taste!"
+          }
+        ],
+        "website_cta": {
+          "link_url": "https://zestrestaurant.example/join",
+          "cta_text": "Join Zest Rewards Now",
+          "cta_style": "Bold homepage banner with farm imagery background"
+        }
+      }
+    }
+  ],
+  "dishes": [
+    {
+      "id": "marinara_pizza",
+      "restaurant_id": "zest_california",
+      "name": "Marinara Pizza",
+      "description": "Classic tomato sauce, locally grown basil, and fresh garlic on our signature sourdough crust",
+      "price": 2100,
+      "currency": "USD",
+      "image_url": "https://zestrestaurant.example/images/marinara_pizza.jpg",
+      "ingredient_ids": ["tomato123", "basil456", "garlic789", "sourdough_crust"],
+      "available": true,
+      "chef_highlight": "Chef Adriana's personal favorite!",
+      "chef_story": {
+        "translations": {
+          "en": "Inspired by her first visit to an Italian market, Chef Adriana crafts this dish with passion and authenticity, using techniques passed down through generations.",
+          "es": "Inspirada por su primera visita a un mercado italiano, la Chef Adriana elabora este plato con pasión y autenticidad, utilizando técnicas transmitidas de generación en generación.",
+          "fr": "Inspirée par sa première visite d'un marché italien, la Chef Adriana réalise ce plat avec passion et authenticité, en utilisant des techniques transmises de génération en génération."
+        }
+      },
+      "chef_anecdote": "I still remember the vibrant colors of fresh basil at my first market visit in Naples. The aroma transported me instantly, and I knew I had to capture that feeling in a dish.",
+      "culinary_philosophy": "At Zest, every dish is a tribute to the art of cooking, where local ingredients meet timeless Italian techniques. Our pizzas honor simplicity and quality above all.",
+      "seasonal_story": {
+        "translations": {
+          "en": "Summer brings the most vibrant tomatoes and fragrant basil to our kitchen. Each ingredient reaches its peak flavor during these warm months, creating a harmony of taste that's unmistakably summer in California.",
+          "es": "El verano trae los tomates más vibrantes y la albahaca más fragante a nuestra cocina. Cada ingrediente alcanza su máximo sabor durante estos meses cálidos, creando una armonía de sabores que es inconfundiblemente verano en California."
+        }
+      },
+      "cultural_context": {
+        "translations": {
+          "en": "The Marinara pizza dates back to 18th century Naples, where it was prepared for sailors returning from sea. Its simplicity celebrates the essential flavors of Italian cuisine.",
+          "it": "La pizza Marinara risale alla Napoli del XVIII secolo, dove veniva preparata per i marinai che tornavano dal mare. La sua semplicità celebra i sapori essenziali della cucina italiana."
+        }
+      },
+      "ingredient_story": {
+        "translations": {
+          "en": "Our tomatoes are hand-picked at peak ripeness from Sonoma Valley Farms, just 15 miles from our kitchen. The volcanic soil there imparts a distinctive sweetness that forms the foundation of our sauce."
+        }
+      },
+      "supplier_location": {
+        "detailed": {
+          "street_address": "5678 Farm Road",
+          "locality": "Sonoma",
+          "state": "CA",
+          "country": "USA",
+          "zipcode": "95476"
+        },
+        "compact": "Sonoma Valley",
+        "latitude": 38.291859,
+        "longitude": -122.458036
+      },
+      "supplier_certification": "USDA Organic, Sonoma Sustainable Farming",
+      "farm_distance": 15,
+      "sustainability_impact": "Sourcing locally reduces our carbon footprint by 30% compared to standard supply chains. Our partnership with Sonoma Valley Farms supports regenerative agriculture practices.",
+      "upgrade_options": {
+        "new_name": "Truffle Marinara Pizza",
+        "new_price": 2700,
+        "marketing_copy": "Experience the luxurious twist with black truffle oil and aged Parmigiano—an upgrade that celebrates local flavor with a touch of indulgence."
+      },
+      "key_message_points": [
+        "Locally sourced tomatoes",
+        "Traditional Italian techniques",
+        "Chef's personal favorite",
+        "Seasonal ingredients at peak flavor"
+      ],
+      "suggested_prompt_template": "Create a {social_media|menu|website} description for our {dish.name}, highlighting the {ingredient_story} and {chef_story}. Include details about our {supplier_location.compact} sourcing and {sustainability_impact}."
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "tomato123",
+      "restaurant_id": "zest_california",
+      "name": "Heirloom Tomatoes",
+      "description": "Organically grown heirloom tomatoes",
+      "source": "Sonoma Valley Farms",
+      "locally_sourced": true,
+      "organic": true,
+      "in_stock": true,
+      "supplier_name": "Green Valley Farms",
+      "supplier_location": {
+        "detailed": {
+          "street_address": "5678 Farm Road",
+          "locality": "Sonoma",
+          "state": "CA",
+          "country": "USA",
+          "zipcode": "95476"
+        },
+        "compact": "Sonoma Valley",
+        "latitude": 38.291859,
+        "longitude": -122.458036
+      },
+      "supplier_certification": "USDA Organic, Sonoma Sustainable Farming",
+      "ingredient_story": {
+        "translations": {
+          "en": "These vibrant heirloom tomatoes are grown in rich volcanic soil, creating a naturally sweet flavor profile that's the foundation of our signature sauce. The farm uses traditional growing methods with zero pesticides."
+        }
+      }
+    }
+  ],
+  "bundles": [
+    {
+      "id": "pizza_wine_bundle",
+      "restaurant_id": "zest_california",
+      "bundle_name": "Pizza & Wine Date Night Bundle",
+      "included_items": ["marinara_pizza", "garden_salad", "local_wine"],
+      "price": 4500,
+      "currency": "USD",
+      "bundle_marketing_copy": "Discover the ultimate taste of Zest with our curated date night bundle—perfect for sharing! Enjoy our signature Marinara Pizza paired with a garden-fresh salad and a bottle of locally produced wine from Sonoma Valley vineyards."
+    }
+  ]
+}

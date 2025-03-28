@@ -1,0 +1,116 @@
+{
+  "header": {
+    "version": "1.1",
+    "timestamp": 1648636845,
+    "provider": "Zest Restaurant Group",
+    "incrementality": "DIFFERENTIAL"
+  },
+  "entity": [
+    {
+      "id": "zest_california_promotion_update",
+      "restaurant": {
+        "id": "zest_california",
+        "marketing_extension": {
+          "promotional_offers": [
+            {
+              "offer_name": "Half-Price Pizza Wednesday",
+              "details": "Due to high demand, now available until 8 PM!",
+              "start_time": 1700000000,
+              "end_time": 1700010800,
+              "marketing_copy": "Experience midweek magic with half-priced pizzas now extended until 8 PM due to popular demand!"
+            }
+          ],
+          "event_scheduling": [
+            {
+              "event_name": "Pop-up Cooking Demo",
+              "description": "Last-minute opportunity! Chef Adriana will demonstrate her pizza-making techniques tonight.",
+              "start_time": 1648656000,
+              "end_time": 1648663200,
+              "location": "Zest Restaurant Patio",
+              "marketing_copy": "Surprise event! Join us tonight for an impromptu cooking demonstration with Chef Adriana and learn the secrets behind our famous Marinara Pizza."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "zest_california_dish_update",
+      "dish": {
+        "id": "marinara_pizza",
+        "restaurant_id": "zest_california",
+        "availability": "LIMITED",
+        "remaining_quantity": 8,
+        "special_status": "CHEF_SPECIAL",
+        "chef_highlight": "Tonight only: Chef Adriana's using rare heirloom tomato variety!",
+        "seasonal_story": {
+          "translations": {
+            "en": "Tonight we're featuring a rare batch of late-season heirloom tomatoes from Sonoma Valley Farms. This unexpected harvest brings an exceptionally sweet flavor profile to our Marinara Pizza."
+          }
+        },
+        "supplier_location": {
+          "compact": "Just harvested from Sonoma Valley"
+        },
+        "ingredient_story": {
+          "translations": {
+            "en": "Breaking news! Our partner farm just harvested a surprise late-season batch of their exceptional heirloom tomatoes. Available for tonight only while supplies last!"
+          }
+        },
+        "temporary_price": {
+          "amount": 1900,
+          "currency": "USD",
+          "reason": "Chef's special pricing for limited harvest",
+          "valid_until": "2025-03-25T22:00:00-07:00"
+        }
+      }
+    },
+    {
+      "id": "zest_california_table_status",
+      "table": {
+        "restaurant_id": "zest_california",
+        "table_id": "patio-4",
+        "status": "AVAILABLE",
+        "special_feature": "Perfect view of tonight's cooking demonstration",
+        "last_updated": "2025-03-25T17:30:00-07:00"
+      }
+    },
+    {
+      "id": "zest_california_bundle_flash_sale",
+      "bundle": {
+        "id": "pizza_wine_bundle",
+        "restaurant_id": "zest_california",
+        "price": 3900,
+        "currency": "USD",
+        "bundle_marketing_copy": "FLASH SALE: Our Pizza & Wine Date Night Bundle is now available at a special price for tonight only! Experience the perfect pairing of our signature Marinara Pizza featuring the rare late-season tomatoes, paired with an exclusive wine selection.",
+        "available": true,
+        "limited_time_offer": true,
+        "valid_until": "2025-03-25T22:00:00-07:00"
+      }
+    },
+    {
+      "id": "zest_california_ingredient_update",
+      "ingredient": {
+        "id": "tomato123",
+        "restaurant_id": "zest_california",
+        "in_stock": true,
+        "limited_quantity": true,
+        "ingredient_story": {
+          "translations": {
+            "en": "A surprise late-season harvest of heirloom tomatoes just arrived from our partner farm! These exceptional tomatoes have an intensified sweetness due to the extended growing season and will only be available tonight."
+          }
+        }
+      }
+    },
+    {
+      "id": "zest_california_social_update",
+      "restaurant": {
+        "id": "zest_california",
+        "marketing_extension": {
+          "social_media_strategy": {
+            "hashtags": ["#ZestLocal", "#FarmToFork", "#SonomaFresh", "#LimitedHarvest", "#TonightOnly"],
+            "social_media_blurb": "Breaking news! Our farmers just delivered a surprise batch of late-season heirloom tomatoes. Tonight only, taste the difference in our signature Marinara Pizza. #LimitedHarvest #TonightOnly"
+          }
+        }
+      }
+    }
+  ]
+}

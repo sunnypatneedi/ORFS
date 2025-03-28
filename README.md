@@ -1,18 +1,28 @@
 # Open Restaurant Feed Specification (ORFS)
 
-**Version:** 1.0 (Draft)  
-**Last Updated:** 2025-03-22
+**Version:** 1.1  
+**Last Updated:** 2025-05-15
 
-ORFS is an open, real-time protocol for restaurants to broadcast detailed information about their menus, dishes, tables, and ingredients. ORFS uses Protocol Buffers for efficient real-time feeds and JSON for static data interchange.
+ORFS is an open, real-time protocol for restaurants to broadcast detailed information about their menus, dishes, tables, and ingredients. ORFS uses Protocol Buffers for efficient real-time feeds and JSON for static data interchange. Version 1.1 extends the specification with comprehensive marketing, narrative, and local sourcing capabilities.
 
 ## Overview
 
 This repository contains:
 - **Protobuf Definitions:** Found in `proto/orfs.proto`
-- **JSON Schemas:** In the `best-practices/` folder, providing full validation for Restaurant, Menu, Dish, Table, Ingredient, and the FeedMessage.
-- **Examples:** Example static feed and real-time feed files in `examples/`.
+- **JSON Schemas:** In the `best-practices/` folder, providing full validation for Restaurant, Menu, Dish, Table, Ingredient, Bundle, and marketing extension types.
+- **Examples:** Example static feed and real-time feed files in `examples/`, including v1.1 examples demonstrating the new marketing capabilities.
 - **Tools:** Reference implementations and a validator script in `tools/`.
 - **Documentation:** Detailed markdown documentation in `spec/`.
+
+## Key Features in v1.1
+
+- **Rich Narrative Content:** Tell compelling stories about dishes, ingredients, and chef inspirations
+- **Multi-language Support:** Provide translations for key narrative content
+- **Marketing Extensions:** Include loyalty program details, promotional offers, events, and more
+- **Local Sourcing Data:** Showcase farm locations, certifications, and sustainability impacts
+- **LLM Integration:** Built-in fields for prompt templates and key message points
+- **Bundle Offerings:** Define and promote groups of items sold together
+- **Backward Compatibility:** All new fields are optional to maintain compatibility with v1.0
 
 ## Quick Start
 

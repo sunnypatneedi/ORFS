@@ -12,12 +12,12 @@
         "version": {
           "type": "string",
           "description": "ORFS specification version",
-          "example": "1.0"
+          "example": "1.1"
         },
         "timestamp": {
           "type": "integer",
           "description": "POSIX timestamp when the feed was generated",
-          "example": 1616432523
+          "example": 1648636800
         },
         "provider": {
           "type": "string",
@@ -29,50 +29,632 @@
     "restaurants": {
       "type": "array",
       "items": {
-        "type": "object",
-        "required": ["id", "name", "location"],
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^[A-Za-z0-9_-]+$",
-            "description": "Unique identifier for the restaurant",
-            "example": "downtown-grill"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the restaurant",
-            "example": "Downtown Grill"
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the restaurant",
-            "example": "Farm-to-table dining experience in the heart of the city"
-          },
-          "location": {
-            "type": "object",
-            "required": ["latitude", "longitude", "address"],
-            "properties": {
-              "latitude": {
-                "type": "number",
-                "minimum": -90,
-                "maximum": 90,
-                "description": "Latitude coordinate",
-                "example": 37.7749
-              },
-              "longitude": {
-                "type": "number",
-                "minimum": -180,
-                "maximum": 180,
-                "description": "Longitude coordinate",
-                "example": -122.4194
-              },
-              "address": {
-                "type": "string",
-                "description": "Street address",
-                "example": "123 Main St, San Francisco, CA 94105"
-              }
+        "$ref": "#/definitions/Restaurant"
+      }
+    },
+    "dishes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Dish"
+      }
+    },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Ingredient"
+      }
+    },
+    "bundles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Bundle"
+      }
+    }
+  },
+  "definitions": {
+    "Restaurant": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "description": "Unique identifier for the restaurant",
+          "example": "zest_california"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the restaurant",
+          "example": "Zest"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the restaurant",
+          "example": "Farm-to-table restaurant celebrating the best of California's produce"
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "Street address",
+              "example": "123 Main St, San Francisco, CA 94105"
+            },
+            "city": {
+              "type": "string",
+              "description": "City",
+              "example": "San Francisco"
+            },
+            "region": {
+              "type": "string",
+              "description": "State or region",
+              "example": "CA"
+            },
+            "postal_code": {
+              "type": "string",
+              "description": "Postal code",
+              "example": "94105"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country",
+              "example": "USA"
+            },
+            "latitude": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90,
+              "description": "Latitude coordinate",
+              "example": 37.7749
+            },
+            "longitude": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180,
+              "description": "Longitude coordinate",
+              "example": -122.4194
             }
           }
+        },
+        "cuisine_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Types of cuisine served",
+          "example": ["Farm-to-Table", "California", "Italian-Inspired"]
+        },
+        "price_range": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Price range (1-5, where 1 is least expensive)",
+          "example": 3
+        },
+        "marketing_extension": {
+          "$ref": "#/definitions/MarketingExtension"
+        },
+        "key_message_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Core value statements or key messages",
+          "example": ["Farm-to-table freshness", "Supporting local farmers", "Sustainable practices"]
+        },
+        "suggested_prompt_template": {
+          "type": "string",
+          "description": "Template for LLM prompts with placeholders",
+          "example": "Generate a {length} description for {restaurant_name}, emphasizing our {key_message_points}"
+        }
+      }
+    },
+    "Dish": {
+      "type": "object",
+      "required": ["id", "restaurant_id", "name", "price", "currency"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the dish",
+          "example": "marinara_pizza"
+        },
+        "restaurant_id": {
+          "type": "string",
+          "description": "ID of the restaurant this dish belongs to",
+          "example": "zest_california"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the dish",
+          "example": "Marinara Pizza"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the dish",
+          "example": "Classic tomato sauce, basil, and fresh garlic"
+        },
+        "price": {
+          "type": "integer",
+          "description": "Price in smallest currency unit (e.g., cents)",
+          "example": 2100
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code",
+          "example": "USD"
+        },
+        "image_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to an image of the dish",
+          "example": "https://example.com/images/marinara_pizza.jpg"
+        },
+        "ingredient_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "IDs of ingredients used in this dish",
+          "example": ["tomato123", "basil456", "garlic789"]
+        },
+        "available": {
+          "type": "boolean",
+          "description": "Whether this dish is currently available",
+          "example": true
+        },
+        "chef_highlight": {
+          "type": "string",
+          "description": "Short attention-grabbing tagline",
+          "example": "Chef Adriana's personal favorite!"
+        },
+        "chef_story": {
+          "$ref": "#/definitions/TranslatedString"
+        },
+        "chef_anecdote": {
+          "type": "string",
+          "description": "Brief personal anecdote from the chef",
+          "example": "I still remember the vibrant colors of fresh basil at my first market visit."
+        },
+        "culinary_philosophy": {
+          "type": "string",
+          "description": "Statement of the restaurant's culinary vision",
+          "example": "At Zest, every dish is a tribute to the art of cooking, where local ingredients meet timeless Italian techniques."
+        },
+        "seasonal_story": {
+          "$ref": "#/definitions/TranslatedString"
+        },
+        "cultural_context": {
+          "$ref": "#/definitions/TranslatedString"
+        },
+        "ingredient_story": {
+          "$ref": "#/definitions/TranslatedString"
+        },
+        "supplier_location": {
+          "$ref": "#/definitions/SupplierLocation"
+        },
+        "supplier_certification": {
+          "type": "string",
+          "description": "Certification or quality markers",
+          "example": "USDA Organic"
+        },
+        "farm_distance": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Distance in miles/km from the restaurant to the supplier's location",
+          "example": 25
+        },
+        "sustainability_impact": {
+          "type": "string",
+          "description": "Narrative describing sustainability metrics",
+          "example": "Sourcing locally reduces our carbon footprint by 30%."
+        },
+        "upgrade_options": {
+          "$ref": "#/definitions/UpgradeOption"
+        },
+        "key_message_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Core value statements specific to this dish",
+          "example": ["Locally sourced tomatoes", "Traditional Italian technique", "Chef's special recipe"]
+        },
+        "suggested_prompt_template": {
+          "type": "string",
+          "description": "Template for LLM prompts specific to this dish",
+          "example": "Create a {social_media|menu|website} description for our {dish.name}, highlighting the {ingredient_story} and {chef_story}."
+        }
+      }
+    },
+    "Ingredient": {
+      "type": "object",
+      "required": ["id", "restaurant_id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ingredient",
+          "example": "tomato123"
+        },
+        "restaurant_id": {
+          "type": "string",
+          "description": "ID of the restaurant this ingredient belongs to",
+          "example": "zest_california"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the ingredient",
+          "example": "Heirloom Tomatoes"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the ingredient",
+          "example": "Organically grown heirloom tomatoes"
+        },
+        "source": {
+          "type": "string",
+          "description": "Source information about this ingredient",
+          "example": "Sonoma Valley Farms"
+        },
+        "locally_sourced": {
+          "type": "boolean",
+          "description": "Whether this ingredient is locally sourced",
+          "example": true
+        },
+        "organic": {
+          "type": "boolean",
+          "description": "Whether this ingredient is organic",
+          "example": true
+        },
+        "in_stock": {
+          "type": "boolean",
+          "description": "Whether this ingredient is currently in stock",
+          "example": true
+        },
+        "supplier_name": {
+          "type": "string",
+          "description": "Name of the local farm or supplier",
+          "example": "Green Valley Farms"
+        },
+        "supplier_location": {
+          "$ref": "#/definitions/SupplierLocation"
+        },
+        "supplier_certification": {
+          "type": "string",
+          "description": "Certification or quality markers",
+          "example": "USDA Organic"
+        },
+        "ingredient_story": {
+          "$ref": "#/definitions/TranslatedString"
+        }
+      }
+    },
+    "Bundle": {
+      "type": "object",
+      "required": ["id", "restaurant_id", "bundle_name", "included_items", "price", "currency"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the bundle",
+          "example": "bundle_pizza_antipasti"
+        },
+        "restaurant_id": {
+          "type": "string",
+          "description": "ID of the restaurant this bundle belongs to",
+          "example": "zest_california"
+        },
+        "bundle_name": {
+          "type": "string",
+          "description": "Display name for the bundle",
+          "example": "Pizza & Antipasti Bundle"
+        },
+        "included_items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "IDs of items in this bundle",
+          "example": ["marinara_pizza", "focaccia", "broccoli_rabe_side"]
+        },
+        "price": {
+          "type": "integer",
+          "description": "Bundle price in smallest currency unit",
+          "example": 4000
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code",
+          "example": "USD"
+        },
+        "bundle_marketing_copy": {
+          "type": "string",
+          "description": "Marketing copy for the bundle",
+          "example": "Discover the ultimate taste of Zest with our curated bundle—perfect for sharing and saving!"
+        }
+      }
+    },
+    "TranslatedString": {
+      "type": "object",
+      "properties": {
+        "translations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "pattern": "^[a-z]{2}$",
+            "description": "ISO 639-1 language code"
+          },
+          "description": "Map of language codes to their translations",
+          "example": {
+            "en": "Inspired by her first visit to an Italian market, Chef Adriana crafts this dish with passion.",
+            "es": "Inspirada por su primera visita a un mercado italiano, la Chef Adriana elabora este plato con pasión."
+          }
+        }
+      }
+    },
+    "SupplierLocation": {
+      "type": "object",
+      "properties": {
+        "detailed": {
+          "type": "object",
+          "properties": {
+            "street_address": {
+              "type": "string",
+              "description": "Street address",
+              "example": "123 Country Rd"
+            },
+            "locality": {
+              "type": "string",
+              "description": "City or locality",
+              "example": "Sonoma"
+            },
+            "state": {
+              "type": "string",
+              "description": "State or region",
+              "example": "CA"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country",
+              "example": "USA"
+            },
+            "zipcode": {
+              "type": "string",
+              "description": "Postal code or zipcode",
+              "example": "95476"
+            }
+          }
+        },
+        "compact": {
+          "type": "string",
+          "description": "Compact representation (typically locality or region)",
+          "example": "Sonoma"
+        },
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90,
+          "description": "Latitude coordinate",
+          "example": 38.291859
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180,
+          "description": "Longitude coordinate",
+          "example": -122.458036
+        }
+      }
+    },
+    "UpgradeOption": {
+      "type": "object",
+      "properties": {
+        "new_name": {
+          "type": "string",
+          "description": "Name of the upgraded version",
+          "example": "Truffle Margherita"
+        },
+        "new_price": {
+          "type": "integer",
+          "description": "Price of the upgraded version in smallest currency unit",
+          "example": 2500
+        },
+        "marketing_copy": {
+          "type": "string",
+          "description": "Marketing copy for the upgrade",
+          "example": "Experience the luxurious twist with truffle oil and aged Parmigiano—an upgrade that celebrates local flavor."
+        }
+      }
+    },
+    "MarketingExtension": {
+      "type": "object",
+      "properties": {
+        "loyalty_program": {
+          "type": "object",
+          "properties": {
+            "program_name": {
+              "type": "string",
+              "description": "Name of the loyalty program",
+              "example": "Zest Rewards"
+            },
+            "tiers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tier_name": {
+                    "type": "string",
+                    "description": "Name of the loyalty tier",
+                    "example": "Bronze"
+                  },
+                  "benefits": {
+                    "type": "string",
+                    "description": "Benefits associated with this tier",
+                    "example": "5% off your total bill"
+                  }
+                },
+                "required": ["tier_name", "benefits"]
+              }
+            },
+            "promo_blurb": {
+              "type": "string",
+              "description": "Short marketing message encouraging sign-up",
+              "example": "Join Zest Rewards and elevate your dining experience with exclusive offers!"
+            }
+          },
+          "required": ["program_name", "tiers"]
+        },
+        "promotional_offers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "offer_name": {
+                "type": "string",
+                "description": "Name of the promotional offer",
+                "example": "Half-Price Pizza Wednesday"
+              },
+              "details": {
+                "type": "string",
+                "description": "Detailed description of the offer",
+                "example": "Every Wed from 5-7 PM"
+              },
+              "start_time": {
+                "type": "integer",
+                "description": "Start timestamp (POSIX epoch seconds)",
+                "example": 1700000000
+              },
+              "end_time": {
+                "type": "integer",
+                "description": "End timestamp (POSIX epoch seconds)",
+                "example": 1700007200
+              },
+              "marketing_copy": {
+                "type": "string",
+                "description": "Marketing copy for promotional materials",
+                "example": "Experience midweek magic with half-priced pizzas!"
+              }
+            },
+            "required": ["offer_name", "start_time", "end_time"]
+          }
+        },
+        "influencer_partnerships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "influencer_handle": {
+                "type": "string",
+                "description": "Social media handle of the influencer",
+                "example": "@foodieTraveler"
+              },
+              "collab_type": {
+                "type": "string",
+                "description": "Type of collaboration",
+                "example": "Menu Tasting Event"
+              },
+              "marketing_copy": {
+                "type": "string",
+                "description": "Marketing copy for the partnership",
+                "example": "Exclusive behind-the-scenes coverage of our local farm visits!"
+              }
+            },
+            "required": ["influencer_handle", "collab_type"]
+          }
+        },
+        "social_media_strategy": {
+          "type": "object",
+          "properties": {
+            "platforms": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of social media platforms",
+              "example": ["Instagram", "Facebook"]
+            },
+            "hashtags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of hashtags to use",
+              "example": ["#ZestLocal", "#FarmToFork"]
+            },
+            "posting_schedule": {
+              "type": "string",
+              "description": "Posting schedule description",
+              "example": "3x weekly"
+            },
+            "social_media_blurb": {
+              "type": "string",
+              "description": "Short narrative for social posts",
+              "example": "Taste local, live local—Zest brings Sonoma's freshest right to your plate! #ZestLocal"
+            }
+          }
+        },
+        "event_scheduling": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "event_name": {
+                "type": "string",
+                "description": "Name of the event",
+                "example": "Local Farm Tour"
+              },
+              "description": {
+                "type": "string",
+                "description": "Detailed event description",
+                "example": "Join us at Sonoma Valley Farms for an exclusive behind-the-scenes tour!"
+              },
+              "start_time": {
+                "type": "integer",
+                "description": "Start timestamp (POSIX epoch seconds)",
+                "example": 1700100000
+              },
+              "end_time": {
+                "type": "integer",
+                "description": "End timestamp (POSIX epoch seconds)",
+                "example": 1700107200
+              },
+              "location": {
+                "type": "string",
+                "description": "Event location",
+                "example": "Sonoma Valley Farms"
+              },
+              "marketing_copy": {
+                "type": "string",
+                "description": "Marketing copy for event promotion",
+                "example": "Experience the farm behind our fresh tomatoes!"
+              }
+            },
+            "required": ["event_name", "start_time", "end_time"]
+          }
+        },
+        "website_cta": {
+          "type": "object",
+          "properties": {
+            "link_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Target URL for the CTA",
+              "example": "https://zestrestaurant.com/join"
+            },
+            "cta_text": {
+              "type": "string",
+              "description": "Button or link text",
+              "example": "Join Zest Rewards Now"
+            },
+            "cta_style": {
+              "type": "string",
+              "description": "Style guidelines",
+              "example": "Bold homepage banner"
+            }
+          },
+          "required": ["link_url", "cta_text"]
         }
       }
     }

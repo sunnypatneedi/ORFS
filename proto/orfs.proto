@@ -8,6 +8,8 @@ option java_outer_classname = "OrfsProto";
 option java_multiple_files = true;
 option objc_class_prefix = "ORFS";
 
+// NOTE: ORFS version 1.1 includes enhancements for marketing, narrative, and local sourcing data fields.
+
 // FeedMessage represents the top-level message for an ORFS feed
 message FeedMessage {
   // Required. Metadata about this feed and feed message
@@ -24,7 +26,7 @@ message FeedMessage {
 // FeedHeader contains metadata about the feed
 message FeedHeader {
   // Required. Version of the ORFS Specification
-  // Example: "1.0"
+  // Example: "1.1"
   string orfs_version = 1;
 
   // Incremental counter for feed updates
@@ -64,6 +66,9 @@ message FeedEntity {
   
   // Ingredient information
   Ingredient ingredient = 7;
+  
+  // Bundle information
+  Bundle bundle = 8;
 
   // Extensions namespace
   extensions 1000 to 1999;
@@ -109,6 +114,17 @@ message Restaurant {
 
   // URL to the restaurant image
   string image_url = 12;
+  
+  // Marketing extension for restaurant-wide marketing data
+  MarketingExtension marketing_extension = 13;
+  
+  // Key message points representing core value statements
+  // Example: ["Farm-to-table freshness", "Supporting local farmers"]
+  repeated string key_message_points = 14;
+  
+  // Template for LLM prompts
+  // Example: "Generate a {length} description for {restaurant_name}, emphasizing {key_message_points}"
+  string suggested_prompt_template = 15;
 
   // Extensions namespace
   extensions 1000 to 1999;
@@ -215,6 +231,51 @@ message Dish {
 
   // Special tags for this dish (e.g. "spicy", "chef's special")
   repeated string tags = 15;
+  
+  // Short attention-grabbing tagline
+  // Example: "Chef Adriana's personal favorite!"
+  string chef_highlight = 16;
+  
+  // Long-form narrative describing the chef's inspiration
+  TranslatedString chef_story = 17;
+  
+  // Brief personal anecdote from the chef
+  string chef_anecdote = 18;
+  
+  // Statement of the restaurant's culinary vision
+  string culinary_philosophy = 19;
+  
+  // Dynamic narrative that changes based on the season
+  TranslatedString seasonal_story = 20;
+  
+  // Historical or cultural background that enriches the dish's story
+  TranslatedString cultural_context = 21;
+  
+  // Narrative about the ingredient's origin in multiple languages
+  TranslatedString ingredient_story = 22;
+  
+  // Detailed location information of the supplier
+  SupplierLocation supplier_location = 23;
+  
+  // Certification or quality markers
+  // Example: "USDA Organic", "Fair Trade"
+  string supplier_certification = 24;
+  
+  // Distance in miles/km from the restaurant to the supplier's location
+  float farm_distance = 25;
+  
+  // Narrative describing sustainability metrics
+  // Example: "30% reduction in carbon footprint"
+  string sustainability_impact = 26;
+  
+  // Upgrade options for this dish
+  UpgradeOption upgrade_options = 27;
+  
+  // Template for LLM prompts specific to this dish
+  string suggested_prompt_template = 28;
+  
+  // Core value statements specific to this dish
+  repeated string key_message_points = 29;
 
   // Extensions namespace
   extensions 1000 to 1999;
@@ -360,6 +421,20 @@ message Ingredient {
 
   // Whether this ingredient is currently in stock
   bool in_stock = 10;
+  
+  // Name of the local farm or supplier
+  // Example: "Green Valley Farms"
+  string supplier_name = 11;
+  
+  // Detailed location information of the supplier
+  SupplierLocation supplier_location = 12;
+  
+  // Certification or quality markers
+  // Example: "USDA Organic"
+  string supplier_certification = 13;
+  
+  // Narrative about the ingredient's origin in multiple languages
+  TranslatedString ingredient_story = 14;
 
   // Extensions namespace
   extensions 1000 to 1999;
@@ -572,6 +647,239 @@ message NutritionalInfo {
   // Protein in grams
   float protein_grams = 12;
 
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// TranslatedString represents text with translations in multiple languages
+message TranslatedString {
+  // Map of language codes to their translations
+  // Key: ISO 639-1 language code (e.g., "en", "es", "fr")
+  // Value: Text content in the specified language
+  map<string, string> translations = 1;
+  
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Detailed information about a supplier's location
+message SupplierLocation {
+  // Detailed address components
+  message DetailedLocation {
+    // Street address
+    // Example: "123 Country Rd"
+    string street_address = 1;
+    
+    // City or locality
+    // Example: "Sonoma"
+    string locality = 2;
+    
+    // State or region
+    // Example: "CA"
+    string state = 3;
+    
+    // Country
+    // Example: "USA"
+    string country = 4;
+    
+    // Postal code or zipcode
+    // Example: "95476"
+    string zipcode = 5;
+  }
+  
+  // Detailed address components
+  DetailedLocation detailed = 1;
+  
+  // Compact representation (typically locality or region)
+  // This should be derived from the detailed fields
+  // Example: "Sonoma"
+  string compact = 2;
+  
+  // Geographic coordinates
+  double latitude = 3;  // Valid range: -90 to 90
+  double longitude = 4; // Valid range: -180 to 180
+}
+
+// Upgrade options for a dish
+message UpgradeOption {
+  // Name of the upgraded version
+  // Example: "Truffle Margherita"
+  string new_name = 1;
+  
+  // Price of the upgraded version
+  uint32 new_price = 2;
+  
+  // Marketing copy for the upgrade
+  string marketing_copy = 3;
+}
+
+// MarketingExtension contains additional marketing data for restaurants
+message MarketingExtension {
+  // Loyalty program details
+  message LoyaltyProgram {
+    // Tier of a loyalty program
+    message Tier {
+      // Name of the loyalty tier
+      // Example: "Bronze", "Silver", "Gold"
+      string tier_name = 1;
+      
+      // Benefits associated with this tier
+      // Example: "5% off your total bill"
+      string benefits = 2;
+    }
+    
+    // Name of the loyalty program
+    // Example: "Zest Rewards"
+    string program_name = 1;
+    
+    // Loyalty program tiers
+    repeated Tier tiers = 2;
+    
+    // Short marketing message encouraging sign-up
+    string promo_blurb = 3;
+  }
+  
+  // Details of a promotional offer
+  message PromotionalOffer {
+    // Name of the promotional offer
+    // Example: "Half-Price Pizza Wednesday"
+    string offer_name = 1;
+    
+    // Detailed description of the offer
+    // Example: "Every Wed from 5-7 PM"
+    string details = 2;
+    
+    // Start timestamp (POSIX epoch seconds)
+    uint64 start_time = 3;
+    
+    // End timestamp (POSIX epoch seconds)
+    uint64 end_time = 4;
+    
+    // Marketing copy for promotional materials
+    string marketing_copy = 5;
+  }
+  
+  // Details of an influencer partnership
+  message InfluencerPartnership {
+    // Social media handle of the influencer
+    // Example: "@foodieTraveler"
+    string influencer_handle = 1;
+    
+    // Type of collaboration
+    // Example: "Menu Tasting Event"
+    string collab_type = 2;
+    
+    // Marketing copy for the partnership
+    string marketing_copy = 3;
+  }
+  
+  // Social media strategy details
+  message SocialMediaStrategy {
+    // List of social media platforms
+    // Example: ["Instagram", "Facebook"]
+    repeated string platforms = 1;
+    
+    // List of hashtags to use
+    // Example: ["#ZestLocal", "#FarmToFork"]
+    repeated string hashtags = 2;
+    
+    // Posting schedule description
+    // Example: "3x weekly"
+    string posting_schedule = 3;
+    
+    // Short narrative for social posts
+    string social_media_blurb = 4;
+  }
+  
+  // Details of a scheduled event
+  message Event {
+    // Name of the event
+    // Example: "Local Farm Tour"
+    string event_name = 1;
+    
+    // Detailed event description
+    string description = 2;
+    
+    // Start timestamp (POSIX epoch seconds)
+    uint64 start_time = 3;
+    
+    // End timestamp (POSIX epoch seconds)
+    uint64 end_time = 4;
+    
+    // Event location
+    string location = 5;
+    
+    // Marketing copy for event promotion
+    string marketing_copy = 6;
+  }
+  
+  // Call-to-action details for websites
+  message WebsiteCTA {
+    // Target URL for the CTA
+    // Example: "https://zestrestaurant.com/join"
+    string link_url = 1;
+    
+    // Button or link text
+    // Example: "Join Zest Rewards Now"
+    string cta_text = 2;
+    
+    // Style guidelines
+    // Example: "Bold homepage banner"
+    string cta_style = 3;
+  }
+  
+  // Loyalty program details
+  LoyaltyProgram loyalty_program = 1;
+  
+  // Promotional offers
+  repeated PromotionalOffer promotional_offers = 2;
+  
+  // Influencer partnerships
+  repeated InfluencerPartnership influencer_partnerships = 3;
+  
+  // Social media strategy
+  SocialMediaStrategy social_media_strategy = 4;
+  
+  // Scheduled events
+  repeated Event event_scheduling = 5;
+  
+  // Website CTA
+  WebsiteCTA website_cta = 6;
+  
+  // Extensions namespace
+  extensions 1000 to 1999;
+  extensions 9000 to 9999;
+}
+
+// Bundle represents a group of items sold together
+message Bundle {
+  // Required. Unique identifier for this bundle
+  // Example: "bundle_pizza_antipasti"
+  string id = 1;
+  
+  // Required. Restaurant ID this bundle belongs to
+  string restaurant_id = 2;
+  
+  // Required. Display name for the bundle
+  // Example: "Pizza & Antipasti Bundle"
+  string bundle_name = 3;
+  
+  // Required. IDs of items in this bundle
+  // Example: ["marinara_pizza", "focaccia", "broccoli_rabe_side"]
+  repeated string included_items = 4;
+  
+  // Required. Bundle price in smallest currency unit
+  uint32 price = 5;
+  
+  // Required. Currency code (ISO 4217)
+  // Example: "USD", "EUR"
+  string currency = 6;
+  
+  // Marketing copy for the bundle
+  string bundle_marketing_copy = 7;
+  
   // Extensions namespace
   extensions 1000 to 1999;
   extensions 9000 to 9999;
