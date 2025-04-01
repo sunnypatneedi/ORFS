@@ -1,5 +1,8 @@
 # Open Restaurant Feed Specification (ORFS)
 
+![image](https://github.com/user-attachments/assets/8e122b35-44f6-42de-9f2c-452917820194)
+
+
 **Version:** 1.2  
 **Last Updated:** 2025-03-28
 
