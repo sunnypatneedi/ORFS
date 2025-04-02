@@ -1,10 +1,10 @@
 # Open Restaurant Feed Specification (ORFS)
+**Version:** 1.2  
+**Last Updated:** 2025-03-28
+![image](https://github.com/user-attachments/assets/a3aab2de-31af-4bc3-947a-2b3548ac6aac)
 
 ![image](https://github.com/user-attachments/assets/8e122b35-44f6-42de-9f2c-452917820194)
 
-
-**Version:** 1.2  
-**Last Updated:** 2025-03-28
 
 ORFS is an open, real-time protocol for restaurants to broadcast detailed information about their menus, dishes, tables, and ingredients. ORFS uses Protocol Buffers for efficient real-time feeds and JSON for static data interchange. Version 1.2 enhances the specification with multiple upgrade options, limited-time offers, customer feedback summaries, and improved LLM integration to generate more compelling content.
 
